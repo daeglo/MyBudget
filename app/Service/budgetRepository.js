@@ -1,7 +1,7 @@
 /* jshint es3:true */
 /* globals define:false, angular:false */
 
-define(['myBudget', 'Model/Budget', 'Model/Category', 'Model/Item'], function (myBudget, Budget, Category, Item) {
+define(['myBudget', 'Model/Budget', 'Model/Category'], function (myBudget, Budget, Category) {
     'use strict ';
 
     budgetRepository.$provide = ['$window'];
@@ -13,7 +13,7 @@ define(['myBudget', 'Model/Budget', 'Model/Category', 'Model/Item'], function (m
             var i, result = [];
             for (i = 0; i < items.length; i++) {
                 var item = items[i];
-                result.push(new Item(item.name, item.amount, item.period));
+                result.push(new Category(item.name, item.amount, item.period));
             }
             return result;
         }

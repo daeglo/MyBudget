@@ -2,15 +2,15 @@
 /* global define:false */
 
 define([
-    'myBudget', 'Model/Item', 'Model/Period', 'text!View/Category.tpl', 'text!View/EditItem.tpl'
-], function (myBudget, Item, Period, tpl, editor) {
+    'myBudget', 'Model/Category', 'Model/Period', 'text!View/Category.tpl', 'text!View/EditItem.tpl'
+], function (myBudget, Category, Period, tpl, editor) {
     'use strict';
 
     editorController.$inject = ['$scope', '$modalInstance', 'item'];
 
     function editorController($scope, $modalInstance, item) {
         $scope.Period = Period;
-        $scope.item = new Item(item.name, item.amount, item.period);
+        $scope.item = new Category(item.name, item.amount, item.period);
         $scope.set = function (a_period) {
             $scope.item.period = a_period;
         };
@@ -59,7 +59,7 @@ define([
          * Adds a new budget item to the Category.
          */
         function newBudgetItem() {
-            edit(new Item('', 0, $scope.period)).result.then(function (an_item) {
+            edit(new Category('', 0, $scope.period)).result.then(function (an_item) {
                 $scope.category.addBudgetItem(an_item);
             });
         };

@@ -2,8 +2,8 @@
 /* globals define:false */
 
 define([
-    'myBudget', 'Model/Budget', 'Model/Item', 'Model/Period', 'text!View/Budget.tpl', 'lodash', 'Controller/Category', 'ui.router', 'highcharts', 'Service/budgetRepository'
-], function (myBudget, Budget, Item, Period, tpl, _) {
+    'myBudget', 'Model/Budget', 'Model/Period', 'text!View/Budget.tpl', 'lodash', 'Controller/Category', 'ui.router', 'highcharts', 'Service/budgetRepository'
+], function (myBudget, Budget, Period, tpl, _) {
     'use strict';
 
     budgetController.$inject = ['$scope', 'budgetRepository'];
@@ -19,8 +19,7 @@ define([
                 out = _.union($scope.budget.expenses.items, $scope.budget.savings.items),
                 difference = income - expenses;
 
-
-            $scope.budget.savings.items[0] = new Item('Savings', difference, $scope.period);
+            $scope.budget.savings.amount = difference;
 
             $scope.summaryChart.series[0].data = _.map(out, function (item) {
                 return {
