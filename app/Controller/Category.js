@@ -42,6 +42,8 @@ define([
                 backtdrop: 'static'
             });
         }
+
+        $scope.edit =
         /**
          * Edits an existing budget Item
          * @param {integer} index The index of the item to edit
@@ -50,7 +52,9 @@ define([
             edit($scope.category.items[index]).result.then(function (an_item) {
                 $scope.category.items[index] = an_item;
             });
-        }
+        };
+
+        $scope.newBudgetItem =
         /**
          * Adds a new budget item to the Category.
          */
@@ -58,10 +62,7 @@ define([
             edit(new Item('', 0, $scope.period)).result.then(function (an_item) {
                 $scope.category.addBudgetItem(an_item);
             });
-        }
-
-        $scope.newBudgetItem = newBudgetItem;
-        $scope.edit = editBudgetItem;
+        };
     }
 
     myBudget.directive('category', function () {
