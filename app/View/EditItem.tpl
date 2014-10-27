@@ -5,28 +5,24 @@
     <div class="panel-body">
         <form class="form-horizontal" role="form">
             <div class="form-group">
-                <label for="item.name" class="control-label col-sm-3">Description</label>
+                <label for="name" class="control-label col-sm-3">Description</label>
                 <div class="col-sm-9">
-                    <input type="text" id="item.name" class="form-control col-sm-9" ng-model="item.name" placeholder="Description" />
+                    <input type="text" id="name" class="form-control col-sm-9" ng-model="item.name" placeholder="Description" />
                 </div>
             </div>
             <div class="form-group">
-                <label for="item.amount" class="control-label col-sm-3">Amount</label>
+                <label for="amount" class="control-label col-sm-3">Amount</label>
                 <div class="controls col-sm-9">
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input type="number" id="item.amount" class="form-control" ng-model="item.amount" placeholder="Amount" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{item.period.suffix}}
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu pull-right">
-                                <li ng-repeat="period in Period">
-                                    <a ng-click="set(period)">{{period.suffix}}</a>
-                                </li>
-                            </ul>
-                        </span>
+                        <input type="number" id="amount" class="form-control" ng-model="item.amount" placeholder="Amount" />
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="period" class="control-label col-sm-3">Frequency</label>
+                <div class="controls col-sm-4">
+                    <period-picker period="item.period"></period-picker>
                 </div>
             </div>
         </form>

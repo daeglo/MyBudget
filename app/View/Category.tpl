@@ -9,10 +9,10 @@
             <col class="col-xs-2" />
             <col class="col-xs-1" />
         </colgroup>
-        <tr ng-repeat="item in category.items">
+        <tr ng-repeat="item in category.getItems()">
             <td>
                 <a href ng-click="edit($index)">{{item.name}}</a>
-                <small>{{item.amount | currency}}{{item.period.suffix}}</small>
+                <small>{{item.amount | currency}}{{Periods[item.period].suffix}}</small>
             </td>
             <td class="text-right">{{item.per(period) | currency}}</td>
             <td class="text-center">

@@ -2,7 +2,7 @@
 /* globals define:false */
 
 define([
-    'myBudget', 'Model/Budget', 'Model/Period', 'text!View/Budget.tpl', 'lodash', 'Controller/Category', 'ui.router', 'highcharts', 'Service/budgetRepository'
+    'myBudget', 'Model/Budget', 'Model/Periods', 'text!View/Budget.tpl', 'lodash', 'Controller/Category', 'Controller/PeriodPicker', 'ui.router', 'highcharts', 'Service/budgetRepository'
 ], function (myBudget, Budget, Period, tpl, _) {
     'use strict';
 
@@ -10,7 +10,7 @@ define([
 
     function budgetController($scope, budgetRepository) {
         var budget = $scope.budget = budgetRepository.loadBudget() || new Budget();
-        $scope.period = Period.PerMonth;
+        $scope.period = 'PerMonth';
         $scope.Period = Period;
 
         function update() {
@@ -32,11 +32,8 @@ define([
         }
 
         $scope.$watch('budget', update, true);
+        $scope.$watch('period', update, true);
 
-        $scope.set = function (a_period) {
-            $scope.period = a_period;
-            update();
-        };
         $scope.summaryChart = {
             options: {
                 chart: {

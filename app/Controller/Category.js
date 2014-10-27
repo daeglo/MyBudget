@@ -1,21 +1,26 @@
 /* jshint es3:true, browser:true */
 /* global define:false */
-
 define([
-    'myBudget', 'Model/Category', 'Model/Period', 'text!View/Category.tpl', 'text!View/EditItem.tpl'
-], function (myBudget, Category, Period, tpl, editor) {
+    'myBudget', 'Model/Category', 'Model/Item', 'Model/Periods',
+    'text!View/Category.tpl', 'text!View/EditItem.tpl'
+], function (myBudget, Category, Item, Periods, tpl, editor) {
     'use strict';
 
     editorController.$inject = ['$scope', '$modalInstance', 'item'];
 
     function editorController($scope, $modalInstance, item) {
-        $scope.Period = Period;
-        $scope.item = new Category(item.name, item.amount, item.period);
-        $scope.set = function (a_period) {
-            $scope.item.period = a_period;
-        };
+        $scope.Period = Periods;
+        $scope.item = {};
+        $scope.item.name = item.name;
+        $scope.item.amount = item.amount;
+        $scope.item.period = item.period;
+
         $scope.ok = function () {
-            $modalInstance.close($scope.item);
+            item.name = $scope.item.name;
+            item.amount = $scope.item.amount;
+            item.period = $scope.item.period;
+
+            $modalInstance.close(item);
         };
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
@@ -39,7 +44,7 @@ define([
                         return an_item;
                     }
                 },
-                backtdrop: 'static'
+                backdrop: 'static'
             });
         }
 
@@ -59,10 +64,12 @@ define([
          * Adds a new budget item to the Category.
          */
         function newBudgetItem() {
-            edit(new Category('', 0, $scope.period)).result.then(function (an_item) {
+            edit(new Item('', 0, $scope.period)).result.then(function (an_item) {
                 $scope.category.addBudgetItem(an_item);
             });
         };
+
+        $scope.Periods = Periods;
     }
 
     myBudget.directive('category', function () {

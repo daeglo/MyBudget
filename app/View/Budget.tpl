@@ -2,15 +2,7 @@
     <div class="page-header row">
         <h3 class="col-xs-6">My Budget</h3>
         <div class="col-xs-6 text-right">Display categories by
-            <button type="button" class="btn btn-default" dropdown-toggle>
-                {{period.suffix}}
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu pull-right">
-                <li ng-repeat="period in Period">
-                    <a ng-click="set(period)">{{period.suffix}}</a>
-                </li>
-            </ul>
+            <period-picker period="period"></period-picker>
         </div>
     </div>
     <div class="col-md-8 col-md-push-4">
