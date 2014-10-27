@@ -9,16 +9,16 @@ define([
     categoryController.$inject = ['$scope', 'editItem'];
 
     function categoryController($scope, editItem) {
-        $scope.edit =
+        $scope.editBudgetItem =
         /**
          * Edits an existing budget Item
          * @param {integer} index The index of the item to edit
          */
-        function editBudgetItem(index) {
-            var old_item = $scope.category.getItems()[index];
-            editItem(old_item).result.then(function (new_item) {
-                $scope.category.removeBudgetItem(old_item);
+        function editBudgetItem(an_item) {
+            editItem(an_item).result.then(function (new_item) {
+                $scope.category.removeBudgetItem(an_item);
                 $scope.category.addBudgetItem(new_item);
+
             });
         };
 
@@ -30,6 +30,14 @@ define([
             editItem(new Item()).result.then(function (an_item) {
                 $scope.category.addBudgetItem(an_item);
             });
+        };
+
+        $scope.removeBudgetItem =
+        /**
+         * Removes a budget item from the Category
+         */
+        function removeBudgetItem(an_item) {
+            $scope.category.removeBudgetItem(an_item);
         };
 
         $scope.Periods = Periods;

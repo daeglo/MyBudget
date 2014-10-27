@@ -17,10 +17,13 @@ define([
             var income = $scope.budget.income.per($scope.period),
                 expenses = $scope.budget.expenses.per($scope.period),
                 out = _.union($scope.budget.expenses.getItems(), $scope.budget.savings.getItems()),
-                difference = income - expenses;
+                difference = income - expenses,
+                overage = $scope.budget.savings.getItems()[0];
 
-            $scope.budget.savings.getItems()[0].amount = difference;
-            $scope.budget.savings.getItems()[0].period = $scope.period;
+            if (overage) {
+                overage.amount = difference;
+                overage.period = $scope.period;
+            }
 
             $scope.summaryChart.series[0].data = _.map(out, function (item) {
                 return {
@@ -32,7 +35,9 @@ define([
             budgetRepository.saveBudget(budget);
         }
 
-        $scope.$watch('budget', update, true);
+        $scope.$watch('budget.income', update, true);
+        $scope.$watch('budget.expenses', update, true);
+        $scope.$watch('budget.savings', update, true);
         $scope.$watch('period', update);
 
         $scope.summaryChart = {

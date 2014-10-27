@@ -11,12 +11,12 @@
         </colgroup>
         <tr ng-repeat="item in category.getItems()">
             <td>
-                <a href ng-click="edit($index)">{{item.name}}</a>
+                <a href ng-click="editBudgetItem(item)">{{item.name}}</a>
                 <small>{{item.amount | currency}}{{Periods[item.period].suffix}}</small>
             </td>
             <td class="text-right">{{item.per(period) | currency}}</td>
             <td class="text-center">
-                <span class="glyphicon glyphicon-remove-sign" ng-click="category.removeBudgetItem(item)"></span>
+                <span class="glyphicon glyphicon-remove-sign" ng-click="removeBudgetItem(item)"></span>
             </td>
         </tr>
         <tfoot>
