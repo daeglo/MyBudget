@@ -2,60 +2,23 @@
 /* global define:false */
 define([
     'myBudget', 'Model/Category', 'Model/Item', 'Model/Periods',
-    'text!View/Category.tpl', 'text!View/EditItem.tpl'
-], function (myBudget, Category, Item, Periods, tpl, editor) {
+    'text!View/Category.tpl', 'Service/EditItem'
+], function (myBudget, Category, Item, Periods, tpl) {
     'use strict';
 
-    editorController.$inject = ['$scope', '$modalInstance', 'item'];
+    categoryController.$inject = ['$scope', 'editItem'];
 
-    function editorController($scope, $modalInstance, item) {
-        $scope.Period = Periods;
-        $scope.item = {};
-        $scope.item.name = item.name;
-        $scope.item.amount = item.amount;
-        $scope.item.period = item.period;
-
-        $scope.ok = function () {
-            item.name = $scope.item.name;
-            item.amount = $scope.item.amount;
-            item.period = $scope.item.period;
-
-            $modalInstance.close(item);
-        };
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-    }
-
-    categoryController.$inject = ['$scope', '$modal'];
-
-    function categoryController($scope, $modal) {
-        /**
-         * Sets an item into edit mode
-         * @param {Item} an_item The item to edit
-         * @return {Promise<Item>} The edited item
-         */
-        function edit(an_item) {
-            return $modal.open({
-                template: editor,
-                controller: editorController,
-                resolve: {
-                    item: function () {
-                        return an_item;
-                    }
-                },
-                backdrop: 'static'
-            });
-        }
-
+    function categoryController($scope, editItem) {
         $scope.edit =
         /**
          * Edits an existing budget Item
          * @param {integer} index The index of the item to edit
          */
         function editBudgetItem(index) {
-            edit($scope.category.items[index]).result.then(function (an_item) {
-                $scope.category.items[index] = an_item;
+            var old_item = $scope.category.getItems()[index];
+            editItem(old_item).result.then(function (new_item) {
+                $scope.category.removeBudgetItem(old_item);
+                $scope.category.addBudgetItem(new_item);
             });
         };
 
@@ -64,7 +27,7 @@ define([
          * Adds a new budget item to the Category.
          */
         function newBudgetItem() {
-            edit(new Item('', 0, $scope.period)).result.then(function (an_item) {
+            editItem(new Item()).result.then(function (an_item) {
                 $scope.category.addBudgetItem(an_item);
             });
         };
