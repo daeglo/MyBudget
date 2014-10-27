@@ -16,10 +16,11 @@ define([
         function update() {
             var income = $scope.budget.income.per($scope.period),
                 expenses = $scope.budget.expenses.per($scope.period),
-                out = _.union($scope.budget.expenses.items, $scope.budget.savings.items),
+                out = _.union($scope.budget.expenses.getItems(), $scope.budget.savings.getItems()),
                 difference = income - expenses;
 
-            $scope.budget.savings.amount = difference;
+            $scope.budget.savings.getItems()[0].amount = difference;
+            $scope.budget.savings.getItems()[0].period = $scope.period;
 
             $scope.summaryChart.series[0].data = _.map(out, function (item) {
                 return {
@@ -32,7 +33,7 @@ define([
         }
 
         $scope.$watch('budget', update, true);
-        $scope.$watch('period', update, true);
+        $scope.$watch('period', update);
 
         $scope.summaryChart = {
             options: {
